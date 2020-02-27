@@ -39,12 +39,9 @@
             <ion-row>
               <ion-col class="showbox" col-3 col-md-4 col-xl-3 *ngFor="let c of countries | slice:0:limit | search : terms | sort: {property: column, order: order}">
                 
-                <!-- src-fallback="{{ placeholder }}" -->
-                    <img [src]="c.tvlogo" onerror="this.src='assets/imgs/icon.png'"  class="img">
-                    
-               <!-- <ionic-image-cache [src]="c.tvlogo" class="img"></ionic-image-cache> -->
-       
-                
+                <img src="{{c.tvlogo}}" onerror="this.src='assets/imgs/icon.png'" class="img" >
+          
+                 
                                   
                     <div class="middle">
                 

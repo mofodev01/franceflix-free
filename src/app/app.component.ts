@@ -79,8 +79,8 @@ export class MyApp {
    /// this.showBanner();
     this.localisation();
     this.fetchuser();
-    this.push_notification();
-    this.fetch_message();
+    //this.push_notification();
+    //this.fetch_message();
     this.network_space();
     // used for an example of ngFor and navigation   SeriesPage
     
@@ -131,17 +131,17 @@ export class MyApp {
      , { title: 'Live Tv', component: LivePage,icon : "desktop" }
      ,{ title: 'VOD Films', component: FilmsPage,icon : "film" }
  
-     ,{ title: 'Kid Films', component: KidMoviesPage,icon : "recording" }
-     ,{ title: 'Tv Series', component: TvSeriesPage,icon : "paper" }
+     //,{ title: 'Kid Films', component: KidMoviesPage,icon : "recording" }
+     //,{ title: 'Tv Series', component: TvSeriesPage,icon : "paper" }
  
-     ,{ title: 'Ex Yu', component: VodExYuPage,icon : "aperture" }
+     //,{ title: 'Ex Yu', component: VodExYuPage,icon : "aperture" }
     // ,{ title: '3D Films', component: VodGamingPage,icon : "game-controller-b" }
-     ,{ title: 'Vip Channels', component: VipPage,icon : "ribbon" }
+     //,{ title: 'Vip Channels', component: VipPage,icon : "ribbon" }
      ,{ title: 'Favouris', component: FavoratePage,icon : "bookmarks" }
-     ,{ title: 'Telecharger', component: DownloadPage,icon : "download" }
-     ,{ title: 'Tutoriels',component: AndroidAppPage,icon : "book"}
+     //,{ title: 'Telecharger', component: DownloadPage,icon : "download" }
+     //,{ title: 'Tutoriels',component: AndroidAppPage,icon : "book"}
      ,{ title: 'Support', component: ContactPage,icon : "mail" }
-     ,{ title: 'Privacy & Terms', component: PrivacyTermsPage,icon : "md-lock" }
+     //,{ title: 'Privacy & Terms', component: PrivacyTermsPage,icon : "md-lock" }
      
      
      

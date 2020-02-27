@@ -1,797 +1,97 @@
-import { Component,ViewChild } from '@angular/core';
-import {  NavController, NavParams } from 'ionic-angular';
-import { LoadingController, App , AlertController,MenuController,Platform } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-import { SettingPage } from '../setting/setting'
-import { LoginPage } from '../login/login';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams,MenuController } from 'ionic-angular';
+//import { LoadingController, App , AlertController,MenuController,Platform  } from 'ionic-angular';
+//import { HttpClient,HttpHeaders  } from '@angular/common/http';
 
-import { Content } from 'ionic-angular';
 
-import { DownloadPage } from '../download/download';
-import { AndroidAppPage } from '../android-app/android-app';
-import { HttpClient,HttpHeaders  } from '@angular/common/http';
-import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
+//
+
+import { LivePage } from '../live/live';
+import { FilmsPage } from '../films/films';
+
+//
+//import { SafariViewController } from '@ionic-native/safari-view-controller';
+
+//import { Downloader,DownloadRequest,NotificationVisibility } from '@ionic-native/downloader';
 import { InAppBrowser, InAppBrowserOptions } from "@ionic-native/in-app-browser";
-import { Clipboard } from '@ionic-native/clipboard';
-import { Toast } from '@ionic-native/toast';
-import { SafariViewController } from '@ionic-native/safari-view-controller';
-import { Market } from '@ionic-native/market';
+//import { AdMobFree,AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
+
+import * as dl from 'cordova-plugin-android-downloadmanager';
+import {  
+  File  
+} from '@ionic-native/file';
+
+@IonicPage()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  @ViewChild("username") username;
-  @ViewChild("amount") amount;
-  @ViewChild("duration") duration;
-  @ViewChild("gateway") gateway;
 
-  @ViewChild(Content) content: Content;
+  app_link:any;
+  app_title:any;
 
-  scrollTo() {
-   
-   // this.content.scrollTo(0, 500, 200);
-   this.content.scrollToBottom(1500);
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public menuCtrl:MenuController
+    //public http:  HttpClient,
+   // private downloader: Downloader,
+   , private inAppBrowser: InAppBrowser
+    //private admobFree: AdMobFree
+    , private file: File
+) {this.menuCtrl.enable(true)}
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ProfilePage');
+    //this.download_app();
   }
-data:any;
-
-items:any;
-data_storage:any;
-item_pay_show:any;
-item_free_show:any;
-item_pay_stop:any;
-index: string
-
-CopyTextUser:string ;
-CopyTextPass:string ;
-
-
-  constructor(
-  public platform: Platform ,
-   private market: Market,
-    private safariViewController: SafariViewController,
-    private inAppBrowser: InAppBrowser,
-    public http:  HttpClient,
-    public navCtrl: NavController, public navParams: NavParams
-    ,public loadingCtrl: LoadingController,public storage: Storage 
-    , public appCtrl: App , public alertCtrl: AlertController
-    ,public menuCtrl:MenuController
-    ,private payPal: PayPal
-   // ,public MyApp: MyApp
-    ,private clipboard: Clipboard
-    ,private toast: Toast
-    
-    ) {
-      this.menuCtrl.enable(true);
-      this.index = "home";
+  gotolive() {
+    this.navCtrl.setRoot(LivePage);
   }
-  
- iptvApp(){
-    //http://appmofix.com/assets/img/icon/appmofix-logo-base.svg
-    this.market.open('com.premiumiptv.premiumiptviptv');
-    }
-  copyTextUser(){
-    this.clipboard.copy(this.CopyTextUser);
-    this.toast.show('copie', '5000', 'center').subscribe(
-      toast => {
-        console.log(toast);
-      }
-    );
-  }
-  copyTextPass(){
-    this.clipboard.copy(this.CopyTextPass);
-    this.toast.show('copie', '5000', 'center').subscribe(
-      toast => {
-        console.log(toast);
-      }
-    );
+  gotovod() {
+    this.navCtrl.setRoot(FilmsPage);
   }
 
-  openWebpage() {
 
-
-    this.safariViewController.isAvailable()
-    .then((available: boolean) => {
-        if (available) {
-  
-          this.safariViewController.show({
-            url: 'http://appmofix.com/',
-            hidden: false,
-            animated: false,
-            transition: 'curl',
-            enterReaderModeIfAvailable: true,
-            tintColor: '#ff0000'
-          })
-          .subscribe((result: any) => {
-              if(result.event === 'opened') console.log('Opened');
-              else if(result.event === 'loaded') console.log('Loaded');
-              else if(result.event === 'closed') console.log('Closed');
-            },
-            (error: any) => console.error(error)
-          );
-  
-        } else {
-          //-----------------
-          const options: InAppBrowserOptions = {
-            zoom: 'yes',
-            shouldPauseOnSuspend: 'yes',
-            location: 'yes'
-      
-          }
-        
-          this.inAppBrowser.create('http://appmofix.com/', '_system', options);
-          //-----------------
-        }
-      }
-    );
-
-  
-  
-  }
-
-  godownloadPage() {
-    this.navCtrl.setRoot(DownloadPage);
-  }
-  gotutorialPage() {
-    this.navCtrl.setRoot(AndroidAppPage);
-  }
-
-  ionViewWillEnter(){
-  
-    this.storage.get("session_storage").then((res)=>{
-     this.data_storage=res;
-     
-     console.log(this.data_storage);
-/**----------------------------------------- */
-let httpHeaders = new HttpHeaders({
-  'Content-Type' : 'application/json',
-  'Cache-Control': 'no-cache'
-     });    
-     let options = {
-  headers: httpHeaders
-     };
-/**----------------------------------------- */    
-  
-this.http.get('http://space.appmofix.com/api/fetch_user.php?username='+this.data_storage,options)
-
-   .subscribe(res => {
-   
-   
-   this.items=res;
-   
-   console.log(this.items);
-   });
-
-
-///-----
-/**----------------------------------------- */    
-  
-this.http.get('http://space.appmofix.com/api/setting.php')
-
-   .subscribe(res => {
-   
-   
-   this.item_pay_show=res;
-   
-   console.log(this.item_pay_show);
-   });
-
-
-///-----
-/**----------------------------------------- */    
-/**----------------------------------------- */    
-  
-this.http.get('http://space.appmofix.com/api/setting.php')
-
-   .subscribe(res => {
-   
-   
-   this.item_free_show=res;
-   
-   console.log(this.item_free_show);
-   });
-
-
-///-----
-/**----------------------------------------- */    
-  
-this.http.get('http://space.appmofix.com/api/setting.php')
-
-   .subscribe(res => {
-   
-   
-   this.item_pay_stop=res;
-   
-   console.log(this.item_pay_stop);
-   });
-
-
-///-----
-})
-///-----
-
-    }
-
-    refresh(){
-  
-      this.storage.get("session_storage").then((res)=>{
-       this.data_storage=res;
-       
-       console.log(this.data_storage);
-  /**----------------------------------------- */
-  let httpHeaders = new HttpHeaders({
-    'Content-Type' : 'application/json',
-    'Cache-Control': 'no-cache'
-       });    
-       let options = {
-    headers: httpHeaders
-       };
-  /**----------------------------------------- */    
-    
-  this.http.get('http://space.appmofix.com/api/fetch_user.php?username='+this.data_storage,options)
-  
-     .subscribe(res => {
-     
-     
-     this.items=res;
-     
-     console.log(this.items);
-     });
-  
-  
-  ///-----
-  /**----------------------------------------- */    
-    
-  this.http.get('http://space.appmofix.com/api/setting.php')
-  
-     .subscribe(res => {
-     
-     
-     this.item_pay_show=res;
-     
-     console.log(this.item_pay_show);
-     });
-  
-  
-  ///-----
-  /**----------------------------------------- */    
-  /**----------------------------------------- */    
-    
-  this.http.get('http://space.appmofix.com/api/setting.php')
-  
-     .subscribe(res => {
-     
-     
-     this.item_free_show=res;
-     
-     console.log(this.item_free_show);
-     });
-  
-  
-  ///-----
-  /**----------------------------------------- */    
-    
-  this.http.get('http://space.appmofix.com/api/setting.php')
-  
-     .subscribe(res => {
-     
-     
-     this.item_pay_stop=res;
-     
-     console.log(this.item_pay_stop);
-     });
-  
-  
-  ///-----
-  })
-  ///-----
-  
-      }
-   
-    setting(
-      username :number,
-      telephone:String,
-      email :String,
-      mac_addr :String
-      
-    ){
-     this.storage.get("session_storage").then((res)=>{
-       this.data_storage=res;
-
-      this.navCtrl.push(SettingPage,{
-        username: username,telephone: telephone,email: email,mac_addr: mac_addr
- });
-
-})
-    }
-
-
-    logout(){
-   this.storage.clear();
-   this.storage.remove("session_storage");
-   this.appCtrl.getRootNav().setRoot(LoginPage);
-  
-   let alert = this.alertCtrl.create({
-  
-     title:"Au revoir",
-     subTitle:"Déconnexion réussie",
-     buttons: ['OK']
-     });
-    
-     alert.present();
-
-    }
-    
-      
-    
-    /*--------------------------------free-2-day-------------------------------*/
-    
-    free(){
-      let loading = this.loadingCtrl.create({
-        content: 'Attendez...'
-      });
-    
-      loading.present();
-  
-     /**----------------------------------------- */
-   
-
-
-      let httpHeaders = new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Cache-Control': 'no-cache'
-           });    
-           let options = {
-        headers: httpHeaders
-           };
-   
-     let data = {
-          username: this.data_storage   
-         };
-   
-
-   
-    
-   this.http.post('http://space.appmofix.com/api/free_trailer.php',data, options)
-   .map(res => res.toString())
-   .subscribe(res => {
-   
-    loading.dismiss();
-    
-   if(res=="You have enable 2 Day Free trailer"){
-     let alert = this.alertCtrl.create({
-       title:"CONGRATS",
-       subTitle:(res),
-       buttons: ['OK']
-       });
-      
-       alert.present();
-      this.refresh();
-      
-   }else
-   {
-    let alert = this.alertCtrl.create({
-    title:"ERROR",
-    subTitle:(res),
-    buttons: ['OK']
-    });
-   
-    alert.present();
-     } 
-   });
-   
-
-    }
-
-    /*--------------------------------Before-free---------------------------------*/
-    confirm_free(){
-    const confirm = this.alertCtrl.create({
-      title: 'Free 2 Day',
-      message: 'Are you sure want to test free 2 Day ?',
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-            //console.log('Disagree clicked');
-          }
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            
-           this.free();
-          }
-        }
-      ]
-    });
-    confirm.present();
-  }
-    /*--------------------------------Before-free---------------------------------*/
-    
-
-
-
-/*--------------------------------1-month---------------------------------*/
-      payement_1_Month(){
-
-         
-        /**/
-        this.payPal.init({
-          PayPalEnvironmentProduction: 'AVRQ7igUT9AjJgnzCapuKNc_s3pHhCNXoOiNAPeLg7hwFsn2dtBg2P_App179qm_nAm1mON5R5AUxn08',
-          PayPalEnvironmentSandbox: ''
-        }).then(() => {
-         
-          this.payPal.prepareToRender('PayPalEnvironmentProduction', new PayPalConfiguration({
-            
-          })).then(() => {
-            let payment = new PayPalPayment('12', 'USD', '1 Month', 'sale');
-            this.payPal.renderSinglePaymentUI(payment).then(() => {
+download_app(){
+     //https://github.com/emilbayes/cordova-plugin-android-downloadmanager
+          //https://forum.ionicframework.com/t/how-to-download-file-natively/114329/14
+              //----------------------------------------------------------
+              let req = {
+                uri: 'http://iptvreseller.xyz:1234/Premium_IptvTVBox.apk',
+                title: 'androidbox',
+                description: 'android box apk',
+                mimeType: 'application/vnd.android.package-archive',
               
-              // Successfully paid
-              let httpHeaders = new HttpHeaders({
-                'Content-Type' : 'application/json',
-                'Cache-Control': 'no-cache'
-                   });    
-                   let options = {
-                headers: httpHeaders
-                   };
-           
-             let data = {
-                  username: this.data_storage,
-                  amount: this.amount=12,
-                  duration: this.duration='1 Month',
-                  gateway: this.gateway='paypal'   
-                 };
-           
-           
-            
-           this.http.post('http://space.appmofix.com/api/paid.php',data, options)
-           .map(res => res.toString())
-           .subscribe(res => {
-           
-            
-           if(res=="payment successfull"){
-             let alert = this.alertCtrl.create({
-               title:"CONGRATS",
-               subTitle:(res),
-               buttons: ['OK']
-               });
+                visibleInDownloadsUi: true,
+                notificationVisibility: 0,
               
-               alert.present();
-           
-              
-           }else
-           {
-            let alert = this.alertCtrl.create({
-            title:"ERROR",
-            subTitle:(res),
-            buttons: ['OK']
-            });
-           
-            alert.present();
-             } 
-           });
-           
-            
-            }, () => {
-              // Error or render dialog closed without being successful
-              
-              let alert = this.alertCtrl.create({
-                title:"Erreur",
-                subTitle:"Erreur ou rendu du dialogue fermé sans succès",
-                buttons: ['OK']
-                });
-               
-                alert.present();
-            });
-          }, () => {
-            // Error in configuration
-            
-            let alert = this.alertCtrl.create({
-              title:"Erreur",
-              subTitle:"Erreur de configuration",
-              buttons: ['OK']
-              });
-             
-              alert.present();
-          });
-        }, () => {
-          // Error in initialization, maybe PayPal isn't supported or something else
-         
-          let alert = this.alertCtrl.create({
-            title:"Error",
-            subTitle:"Erreur lors de l'initialisation, peut-être que PayPal n'est pas pris en charge ou autre chose",
-            buttons: ['OK']
-            });
-           
-            alert.present();
-        });
-         /* */
-      }
-
-      /*-------------------------------------------3-month------30-----EUR------3 Month------------------------------*/
-      payement_3_Month(){
-
-        this.payPal.init({
-          PayPalEnvironmentProduction: 'AVRQ7igUT9AjJgnzCapuKNc_s3pHhCNXoOiNAPeLg7hwFsn2dtBg2P_App179qm_nAm1mON5R5AUxn08',
-          PayPalEnvironmentSandbox: ''
-        }).then(() => {
-         
-          this.payPal.prepareToRender('PayPalEnvironmentProduction', new PayPalConfiguration({
-            
-          })).then(() => {
-            let payment = new PayPalPayment('30', 'USD', '3 Month', 'sale');
-            this.payPal.renderSinglePaymentUI(payment).then(() => {
-              // Successfully paid
-              let httpHeaders = new HttpHeaders({
-                'Content-Type' : 'application/json',
-                'Cache-Control': 'no-cache'
-                   });    
-                   let options = {
-                headers: httpHeaders
-                   };
-           
-             let data = {
-                  username: this.data_storage,
-                  amount: this.amount=30,
-                  duration: this.duration='3 Month',
-                  gateway: this.gateway='paypal'   
-                 };
-           
-           
-            
-           this.http.post('http://space.appmofix.com/api/paid.php',data, options)
-           .map(res => res.toString())
-           .subscribe(res => {
-           
-            
-           if(res=="payment successfull"){
-             let alert = this.alertCtrl.create({
-               title:"CONGRATS",
-               subTitle:(res),
-               buttons: ['OK']
-               });
-              
-               alert.present();
-           
-               
-           }else
-           {
-            let alert = this.alertCtrl.create({
-            title:"ERROR",
-            subTitle:(res),
-            buttons: ['OK']
-            });
-           
-            alert.present();
-             } 
-           });
-           
-             
-            }, () => {
-              // Error or render dialog closed without being successful
-              
-              let alert = this.alertCtrl.create({
-                title:"Error",
-                subTitle:"Error or render dialog closed without being successful",
-                buttons: ['OK']
-                });
-               
-                alert.present();
-            });
-          }, () => {
-            // Error in configuration
-            
-            let alert = this.alertCtrl.create({
-              title:"Error",
-              subTitle:"Error in configuration",
-              buttons: ['OK']
-              });
-             
-              alert.present();
-          });
-        }, () => {
-          // Error in initialization, maybe PayPal isn't supported or something else
-         
-          let alert = this.alertCtrl.create({
-            title:"Error",
-            subTitle:"Error in initialization, maybe PayPal isn't supported or something else",
-            buttons: ['OK']
-            });
-           
-            alert.present();
-        });
-      
-      }
-      /*---------------------------------------6-month----60---EUR----6 Month------sale--------------------------*/
-      payement_6_Month(){
-
-        this.payPal.init({
-          PayPalEnvironmentProduction: 'AVRQ7igUT9AjJgnzCapuKNc_s3pHhCNXoOiNAPeLg7hwFsn2dtBg2P_App179qm_nAm1mON5R5AUxn08',
-          PayPalEnvironmentSandbox: ''
-        }).then(() => {
-         
-          this.payPal.prepareToRender('PayPalEnvironmentProduction', new PayPalConfiguration({
-            
-          })).then(() => {
-            let payment = new PayPalPayment('50', 'USD', '6 Month', 'sale');
-            this.payPal.renderSinglePaymentUI(payment).then(() => {
-              // Successfully paid
-              let httpHeaders = new HttpHeaders({
-                'Content-Type' : 'application/json',
-                'Cache-Control': 'no-cache'
-                   });    
-                   let options = {
-                headers: httpHeaders
-                   };
-           
-             let data = {
-                  username: this.data_storage,
-                  amount: this.amount=50,
-                  duration: this.duration='6 Month',
-                  gateway: this.gateway='paypal'   
-                 };
-           
-           
-            
-           this.http.post('http://space.appmofix.com/api/paid.php',data, options)
-           .map(res => res.toString())
-           .subscribe(res => {
-           
-            
-           if(res=="payment successfull"){
-             let alert = this.alertCtrl.create({
-               title:"CONGRATS",
-               subTitle:(res),
-               buttons: ['OK']
-               });
-              
-               alert.present();
-           
-               
-           }else
-           {
-            let alert = this.alertCtrl.create({
-            title:"ERROR",
-            subTitle:(res),
-            buttons: ['OK']
-            });
-           
-            alert.present();
-             } 
-           });
-           
-             
-            }, () => {
-              // Error or render dialog closed without being successful
-              
-              let alert = this.alertCtrl.create({
-                title:"Error",
-                subTitle:"Error or render dialog closed without being successful",
-                buttons: ['OK']
-                });
-               
-                alert.present();
-            });
-          }, () => {
-            // Error in configuration
-            
-            let alert = this.alertCtrl.create({
-              title:"Error",
-              subTitle:"Error in configuration",
-              buttons: ['OK']
-              });
-             
-              alert.present();
-          });
-        }, () => {
-          // Error in initialization, maybe PayPal isn't supported or something else
-         
-          let alert = this.alertCtrl.create({
-            title:"Error",
-            subTitle:"Error in initialization, maybe PayPal isn't supported or something else",
-            buttons: ['OK']
-            });
-           
-            alert.present();
-        });
-        
-      }
-      /*---------------------------------1-years---90----EUR-----1 Year------sale---------------------- */
-      payement_1_Years(){
-
-        this.payPal.init({
-          PayPalEnvironmentProduction: 'AVRQ7igUT9AjJgnzCapuKNc_s3pHhCNXoOiNAPeLg7hwFsn2dtBg2P_App179qm_nAm1mON5R5AUxn08',
-          PayPalEnvironmentSandbox: ''
-        }).then(() => {
-         
-          this.payPal.prepareToRender('PayPalEnvironmentProduction', new PayPalConfiguration({
-            
-          })).then(() => {
-            let payment = new PayPalPayment('80', 'USD', '1 Year', 'sale');
-            this.payPal.renderSinglePaymentUI(payment).then(() => {
-              // Successfully paid
-              let httpHeaders = new HttpHeaders({
-                'Content-Type' : 'application/json',
-                'Cache-Control': 'no-cache'
-                   });    
-                   let options = {
-                headers: httpHeaders
-                   };
-           
-             let data = {
-                  username: this.data_storage,
-                  amount: this.amount=80,
-                  duration: this.duration='1 Year',
-                  gateway: this.gateway='paypal'   
-                 };
-           
-           
-            
-           this.http.post('http://space.appmofix.com/api/paid.php',data, options)
-           .map(res => res.toString())
-           .subscribe(res => {
-           
-            
-           if(res=="payment successfull"){
-             let alert = this.alertCtrl.create({
-               title:"CONGRATS",
-               subTitle:(res),
-               buttons: ['OK']
-               });
-              
-               alert.present();
-           
-           }else
-           {
-            let alert = this.alertCtrl.create({
-            title:"ERROR",
-            subTitle:(res),
-            buttons: ['OK']
-            });
-           
-            alert.present();
-             } 
-           });
-           
-             
-            }, () => {
-              // Error or render dialog closed without being successful
-              
-              let alert = this.alertCtrl.create({
-                title:"Error",
-                subTitle:"Error or render dialog closed without being successful",
-                buttons: ['OK']
-                });
-               
-                alert.present();
-            });
-          }, () => {
-            // Error in configuration
-            
-            let alert = this.alertCtrl.create({
-              title:"Error",
-              subTitle:"Error in configuration",
-              buttons: ['OK']
-              });
-             
-              alert.present();
-          });
-        }, () => {
-          // Error in initialization, maybe PayPal isn't supported or something else
-         
-          let alert = this.alertCtrl.create({
-            title:"Error",
-            subTitle:"Error in initialization, maybe PayPal isn't supported or something else",
-            buttons: ['OK']
-            });
-           
-            alert.present();
-        });
-
-      }
+                // Either of the next three properties
+                destinationInExternalFilesDir: {
+                  dirType: this.file.externalRootDirectory + '/Download/',
+                  subPath: ''
+                }
+              };
+                console.log(dl);
+                let dl2= dl.__proto__;
+                console.log(dl2);
+                  dl2.enqueue(req, console.info);
+          //----------------------------------------------------------
+}
 
 
+
+openWebpage(){
   
+ const options: InAppBrowserOptions = {
+  zoom: 'yes',
+  shouldPauseOnSuspend: 'yes',
+  location: 'yes'
+
+}
+
+this.inAppBrowser.create('http://appmofix.com/', '_system', options);
+
+}
+
 
 }

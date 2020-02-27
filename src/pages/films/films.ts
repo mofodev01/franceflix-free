@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams,LoadingController,MenuController} from 'ionic-angular';
 
 import { JsonDataProvider } from '../../providers/json-data/json-data';
-import { DetailfilmsPage } from '../detailfilms/detailfilms'
+import { ListeServerFilmsPage } from '../liste-server-films/liste-server-films';
+
+//import { AdMobFree,AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
+
 
 @Component({
   selector: 'page-films',
@@ -23,11 +26,13 @@ export class FilmsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams
     , public JsonDataProvider: JsonDataProvider, public loadingCtrl: LoadingController
     ,public menuCtrl:MenuController
+    //,private admobFree: AdMobFree
     ) {
       this.menuCtrl.enable(true)
   }
 
   ngOnInit() {
+    this.launchInterstitial();
     this.getFilmsCountry();
              }
 
@@ -35,7 +40,7 @@ export class FilmsPage {
 
      
     let loading = this.loadingCtrl.create({
-      content: 'Attendez...'
+      content: 'Please wait...'
     });
   
     loading.present();
@@ -60,7 +65,47 @@ export class FilmsPage {
 }
 
 push_data_country(categorie: String,title: String){
-  this.navCtrl.push(DetailfilmsPage,{categorie: categorie,title: title});
+  this.navCtrl.push(ListeServerFilmsPage,{categorie: categorie,title: title});
 }
   
+launchInterstitial() {
+  /*
+  //if (this.platform.is('android')) {
+  const interstitialConfig: AdMobFreeInterstitialConfig = {
+          isTesting: true,// Remove in production
+          autoShow: true,
+      //id: Your Ad Unit ID goes here
+     //id:'ca-app-pub-3000905870244951/5491408793'
+  };
+
+  this.admobFree.interstitial.config(interstitialConfig);
+
+  
+  this.admobFree.interstitial.prepare().then(() => {
+      // success
+      
+  });
+
+  /* }else if (this.platform.is('ios')) {
+    const interstitialConfig: AdMobFreeInterstitialConfig = {
+      isTesting: true,// Remove in production
+      autoShow: true,
+  //id: Your Ad Unit ID goes here
+ //id:'ca-app-pub-3000905870244951/5491408793'
+};
+
+this.admobFree.interstitial.config(interstitialConfig);
+
+
+this.admobFree.interstitial.prepare().then(() => {
+  // success
+  
+});
+
+  } */
+
+  
+}//fin interstitial
+
+
 }

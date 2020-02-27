@@ -148,7 +148,7 @@ export class RegisterPage {
    
     loader.present().then(() => {
 
-   this.http.post('http://space.appmofix.com/api/register.php',data, options)
+   this.http.post('http://space.appmofix.com/api/create-compte.php',data, options)
    //this.http.post('http://127.0.0.1/i/api/register.php',data, options)
    .map(res => res.toString())
    .subscribe(res => {

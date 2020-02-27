@@ -21,7 +21,6 @@ export class TvSeriesPage {
 
   limit = 100;
 
-
   descending: boolean = false;
 order: number;
 column: string = 'tvname';
