@@ -4,12 +4,9 @@ import { IonicPage, NavController, NavParams,MenuController } from 'ionic-angula
 //import { HttpClient,HttpHeaders  } from '@angular/common/http';
 
 
-//
-
 import { LivePage } from '../live/live';
 import { FilmsPage } from '../films/films';
 
-//
 //import { SafariViewController } from '@ionic-native/safari-view-controller';
 
 //import { Downloader,DownloadRequest,NotificationVisibility } from '@ionic-native/downloader';
