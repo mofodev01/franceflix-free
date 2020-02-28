@@ -62,15 +62,31 @@ export class ProfilePage {
    }
 
 download_app(){
-     //https://github.com/emilbayes/cordova-plugin-android-downloadmanager
-          //https://forum.ionicframework.com/t/how-to-download-file-natively/114329/14
-              //----------------------------------------------------------
+  let httpHeaders = new HttpHeaders({
+    'Content-Type' : 'application/json',
+    'Cache-Control': 'no-cache'
+       });    
+       let options = {
+    headers: httpHeaders
+       };
+
+       this.http.get('http://space.appmofix.com/api/setting.php',options)
+              .subscribe(res => {
+       
+       
+       this.app_link=res[0].franceflix_pro;
+       //console.log(this.app_link);
+       this.app_title=res[0].franceflix_title;
+       //console.log(this.app_title);
+
+
+       });
               let req = {
                 
                 //uri: 'http://iptvreseller.xyz:1234/Premium_IptvTVBox.apk',
-                uri: 'http://appmofix.com/apps/story-kids.apk',
-                title: 'androidbox',
-                description: 'android box apk',
+                uri: ''+this.app_link+'',
+                title: 'this.app_title',
+                description: 'FranceFlix Pro apk',
                 mimeType: 'application/vnd.android.package-archive',
               
                 visibleInDownloadsUi: true,

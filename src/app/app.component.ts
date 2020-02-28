@@ -80,7 +80,7 @@ export class MyApp {
     this.network_space();
     this.launchInterstitial()
     this.localisation();
-    //this.fetchuser();
+    this.fetchuser();
     //this.push_notification();
     //this.fetch_message();
     
@@ -143,7 +143,7 @@ export class MyApp {
      //,{ title: 'Telecharger', component: DownloadPage,icon : "download" }
      //,{ title: 'Tutoriels',component: AndroidAppPage,icon : "book"}
      ,{ title: 'Support', component: ContactPage,icon : "mail" }
-     //,{ title: 'Privacy & Terms', component: PrivacyTermsPage,icon : "md-lock" }
+     ,{ title: 'Privacy & Terms', component: PrivacyTermsPage,icon : "md-lock" }
      
      
      
