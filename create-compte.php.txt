@@ -1,0 +1,197 @@
+/*
+
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    }
+ 
+    // Access-Control headers are received during OPTIONS requests
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+ 
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+ 
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+ 
+        exit(0);
+    }
+ 
+  require "../connecto.php";
+  
+    $data = file_get_contents("php://input");
+    if (isset($data)) {
+        $request = json_decode($data);
+		$username = $request->username;
+		$password = $request->password;
+		$mobile = $request->mobile;
+		$emailadd = $request->email;
+		$device = $request-> device;
+        $geolocal = $request->geolocal;
+        $uuid= $request->uuid;
+        $app_name = $request->app_name;
+    }
+    
+ 
+
+$username = stripslashes($username);
+$username = ucfirst($username);
+$emailadd = ucfirst($emailadd);
+$password = stripslashes($password);
+$new_password = password_hash($password, PASSWORD_DEFAULT);
+            
+if(preg_match("/(@gmail|@outlook|@hotmail|@yahoo|@zoho|@mail)/i", $emailadd)){
+            
+    if(filter_var($emailadd, FILTER_VALIDATE_EMAIL) ){
+                                        
+                                       
+       
+
+    $select=$conn->prepare('SELECT id,username,email,uuid FROM users where username="'.$username.'" or email="'.$emailadd.'" or uuid="'.$uuid.'"');
+                                $select->setFetchMode(PDO::FETCH_ASSOC);
+                                $select->execute();
+                                $data=$select->fetch();
+                                        
+                                 if ($data["uuid"]===$uuid){
+                                        
+                                 $response= "You have already registered";
+               
+                                    }
+                                       
+                                      elseif ($data["username"]===$username){
+                                        
+                                        $response= "Username already exists";
+               
+                                    }
+                                   
+                                    
+                                    elseif ($data["email"]===$emailadd){
+
+                                        $response= "Email already exists";
+    
+                                        }
+                                        
+
+                                       elseif ($data["username"]==$username and $data["email"]==$emailadd) {
+                                            $response= "Username and Email already exists";
+                                        }
+                                        
+                                          elseif ($data["username"]==$username and $data["email"]==$emailadd ) {
+                                            $response= "username and Email already exists";
+                                        }
+                                  
+        elseif ($data["username"]!=$username and $data["email"]!=$emailadd ) {
+                                           /// $response= "Username and Email already exists";
+                                         
+                                       
+                if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
+                                            $response = "Only letters and white space allowed";
+                                        }else
+                                        {
+
+                                            
+                                            // $date_exp= date("Y-m-d H:i:s");
+                                 
+                                             $stmt = $conn->prepare("INSERT INTO users(username,password,telephone,email,duration,created_date,status,device,payment,geolocal,host,app_name,uuid) 
+                                          VALUES(:username,:upass, :utele, :umail,:uduration,:created_date,:ustatus,:udevice,:upayment,:ugeolocal,:uhost,:uapp_name,:uuid)");
+         
+        
+         $date=    date("Y-m-d H:i:s");                            
+         $Free='New';               
+         $Unpaid='Unpaid';               
+          $Week = 'New';  
+         // $host = 'http://iptv-line.com:6969';
+         // $host = 'http://m3ulink.com:6969';
+            $host = 'http://iptv-line.com:7899';
+         
+          ///$uuid="gfddhhjhj1785";
+          
+        $stmt->bindparam(":username", $username);
+        $stmt->bindparam(":upass", $new_password);
+        $stmt->bindparam(":utele", $mobile);
+        $stmt->bindparam(":umail", $emailadd);
+        $stmt->bindparam(":created_date", $date);
+       // $stmt->bindparam(":expired_date", $date_exp);
+        $stmt->bindparam(":upayment", $Unpaid);
+         $stmt->bindparam(":udevice", $device);
+        /// $stmt->bindparam(":server_name",$username);
+         ///$stmt->bindparam(":server_pass",$server_pass);
+         $stmt->bindparam(":ugeolocal", $geolocal);
+         $stmt->bindparam(":ustatus",$Free);
+         $stmt->bindparam(":upayment", $Unpaid);
+         $stmt->bindparam(":uduration", $Week); 
+         $stmt->bindparam(":uhost",$host);
+        $stmt->bindparam(":uapp_name",$app_name); 
+         $stmt->bindparam(":uuid",$uuid);                                    
+        $stmt->execute();	
+  
+                                            
+                                            if (count($stmt) == 1) {
+      //--------------------------------------------------------------------------------------------------------------------        
+        
+        
+   
+    $stmt_user=$conn->prepare('SELECT count(*) as "count" FROM users where  status ="Active" and  payment ="Unpaid"');
+    $stmt_user->execute();
+    $id_user=$stmt_user->fetch(PDO::FETCH_ASSOC);
+    $count=$id_user['count'];
+    
+        
+
+if($count < 1){
+    
+$server_pass = substr(str_shuffle(str_repeat("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 5)), 0, 20);
+    
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, 'https://api.bestbuyiptv.store/v1/line/create');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, "mac_address=&username=".$username."&password=".$server_pass."&package=TRIAL&bouquets[]=3");
+curl_setopt($ch, CURLOPT_POST, 1);
+
+$headers = array();
+$headers[] = 'Authorization: Bearer 2xEGuHMAxik1_zrLWWwHhqOxnlmplE2g';
+$headers[] = 'Content-Type: application/x-www-form-urlencoded';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+$result = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+}
+curl_close ($ch);
+                                            
+                                           }
+     
+
+//--------------------------------------------------------------------------------------------------------------------
+
+
+                                                $response= "Registration successfull";
+                                            
+                                            } else {
+                                                $response= "Error: " . $stmt . "<br>" . $e->getMessage();
+                                            }
+
+
+                                        }
+                                    
+}
+        
+    }else{
+
+            $response= "Please enter a valid email adresse";  
+    }
+    
+                
+}else{ // not preg_match email
+
+    $response= "Please enter most commonly email providers";
+
+} //end if preg_match
+
+
+        
+    echo json_encode( $response);
+    
+*/
