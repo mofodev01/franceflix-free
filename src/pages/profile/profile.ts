@@ -85,7 +85,7 @@ download_app(){
                 
                 //uri: 'http://iptvreseller.xyz:1234/Premium_IptvTVBox.apk',
                 uri: ''+this.app_link+'',
-                title: 'this.app_title',
+                title: ''+this.app_title+'',
                 description: 'FranceFlix Pro apk',
                 mimeType: 'application/vnd.android.package-archive',
               
