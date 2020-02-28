@@ -113,4 +113,5 @@
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-plugin-safariviewcontroller" spec="^1.6.0" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.2.0" />
+    <plugin name="cordova-plugin-admob-free" spec="^0.18.0" />
 </widget>

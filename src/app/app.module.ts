@@ -82,6 +82,7 @@ import { RecoveryPasswordPage } from '../pages/recovery-password/recovery-passwo
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { SafariViewController } from '@ionic-native/safari-view-controller';
+import { AdMobFree } from '@ionic-native/admob-free';
 @NgModule({
   declarations: [
     MyApp,
@@ -198,7 +199,7 @@ ListeServerFilmsPage ,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     JsonDataProvider,
     DatabaseProvider
-   //, AdMobFree
+   , AdMobFree
   ]
 })
 export class AppModule {}

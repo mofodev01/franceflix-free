@@ -42,7 +42,7 @@ import { AndroidAppPage } from '../pages/android-app/android-app'
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { PrivacyTermsPage } from '../pages/privacy-terms/privacy-terms'
 import { Network } from '@ionic-native/network';
-
+import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 
 @Component({
   templateUrl: 'app.html'
@@ -72,16 +72,18 @@ export class MyApp {
     private socialSharing: SocialSharing,
     public actionsheetCtrl: ActionSheetController,
     public alertCtrl: AlertController ,
-    ///private admobFree: AdMobFree,
+    private admobFree: AdMobFree,
     private storage: Storage,
     private locationAccuracy: LocationAccuracy) {
     this.initializeApp();
-   /// this.showBanner();
+    this.showBanner();
+    this.network_space();
+    this.launchInterstitial()
     this.localisation();
-    this.fetchuser();
+    //this.fetchuser();
     //this.push_notification();
     //this.fetch_message();
-    this.network_space();
+    
     // used for an example of ngFor and navigation   SeriesPage
     
 
@@ -151,72 +153,7 @@ export class MyApp {
  
      }
 
-    fetch_message(){
-      this.storage.get("session_storage").then((res)=>{
-        this.data_storage=res;
-        
-        console.log(this.data_storage);
-   /**----------------------------------------- */
-   let httpHeaders = new HttpHeaders({
-     'Content-Type' : 'application/json',
-     'Cache-Control': 'no-cache'
-        });    
-        let options = {
-     headers: httpHeaders
-        };
-   /**----------------------------------------- */    
-     
-   this.http.get('http://space.appmofix.com/api/fetch_status.php?username='+this.data_storage,options)
    
-   //.map(res => res.toString())
-   .subscribe(res => {
-   
-   let  items = JSON.stringify(res);
-   //var  items = JSON.parse(res);
-     
-     console.log(items);
-    
-     //this.items=res;
-   
-    if (items =='[{"status":"New"}]'){
-  
-  
-    let alert = this.alertCtrl.create({
-    
-      title:"Notification",
-      subTitle:"Le contenu est vide,S'il vous plaît appuyez sur le bouton  demande d'essai  Pour activer votre compte.",
-      buttons: ['OK']
-      });
-     
-      alert.present();
-  
-  }
-  else if (items =='[{"status":"Expired"}]'){
-  
-    let alert = this.alertCtrl.create({
-    
-      title:"Notification",
-      subTitle:"Votre abonnement a expiré Veuillez payer pour regarder le contenu.",
-      buttons: ['OK']
-      });
-     
-      alert.present();
-  
-  }
-  });
-  
-  
-  ///-----
-  })
-  ///-----
-    }
-
- 
-
-
-
-
-
 
   localisation(){
     //------------------location-Accuracy-----------------------
@@ -337,7 +274,44 @@ export class MyApp {
         actionSheet.present();
       }
 
-     
+      showBanner(){
+        
+        const bannerConfig: AdMobFreeBannerConfig = {
+          isTesting: true,// Remove in production
+          autoShow: true,
+         // id:'ca-app-pub-3000905870244951/1001894206'
+
+
+         };
+         this.admobFree.banner.config(bannerConfig);
+         
+         this.admobFree.banner.prepare()
+           .then(() => {
+           
+           })
+           .catch(e => console.log(e));
+        
+      
+      }
+      launchInterstitial() {
+        
+        const interstitialConfig: AdMobFreeInterstitialConfig = {
+                isTesting: true,// Remove in production
+                autoShow: true,
+            //id: Your Ad Unit ID goes here
+           //id:'ca-app-pub-3000905870244951/9291447763'
+        };
+      
+        this.admobFree.interstitial.config(interstitialConfig);
+      
+        
+        this.admobFree.interstitial.prepare().then(() => {
+            // success
+            
+        });
+      
+       
+      }
      
 
 }

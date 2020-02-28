@@ -6,7 +6,7 @@ import { JsonDataProvider } from '../../providers/json-data/json-data';
 import { DatabaseProvider } from '../../providers/database/database';
 import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media';
 import { Toast } from '@ionic-native/toast';
-//import { AdMobFree, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
+import { AdMobFree, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 @Component({
   selector: 'page-detailfilms',
   templateUrl: 'detailfilms.html',
@@ -33,7 +33,7 @@ column: string = 'tvname';
     ,public JsonDataProvider: JsonDataProvider, public loadingCtrl: LoadingController
     ,public storage: Storage,private database: DatabaseProvider,
     public platform: Platform,private toast: Toast,private streamingMedia: StreamingMedia
-    ,public menuCtrl:MenuController /*,private admobFree: AdMobFree*/
+    ,public menuCtrl:MenuController ,private admobFree: AdMobFree/**/
     ) {
       this.menuCtrl.enable(true)
      this.categorie = this.navParams.get('categorie'); 
@@ -104,7 +104,7 @@ column: string = 'tvname';
 }
 
 startVideo(url) {
-  
+  this.launchInterstitial();
   let options: StreamingVideoOptions = {
     successCallback: () => { console.log('Finished Video') },
     errorCallback: (e) => { console.log('Error: ', e) },
@@ -173,8 +173,8 @@ startVideo(url) {
               refresher.complete();
              }, 2000);
          }
-        /* launchInterstitial() {
-          if (this.platform.is('android')) {
+        /**/ launchInterstitial() {
+         
           const interstitialConfig: AdMobFreeInterstitialConfig = {
                   isTesting: true,// Remove in production
                   autoShow: true,
@@ -190,22 +190,6 @@ startVideo(url) {
               
           });
         
-          }else if (this.platform.is('ios')) {
-            const interstitialConfig: AdMobFreeInterstitialConfig = {
-              isTesting: true,// Remove in production
-              autoShow: true,
-          //id: Your Ad Unit ID goes here
-         //id:'ca-app-pub-3000905870244951/5491408793'
-        };
-        
-        this.admobFree.interstitial.config(interstitialConfig);
-        
-        
-        this.admobFree.interstitial.prepare().then(() => {
-          // success
-          
-        });
-        
-          }
-         }*/
+     
+         }
 }
