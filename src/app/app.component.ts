@@ -74,7 +74,7 @@ export class MyApp {
     public alertCtrl: AlertController ,
     private admobFree: AdMobFree,
     private storage: Storage,
-    ,private appRate: AppRate
+    private appRate: AppRate,
     private locationAccuracy: LocationAccuracy) {
     this.initializeApp();
     this.showBanner();
