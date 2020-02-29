@@ -16,7 +16,7 @@ import { LoginPage } from '../login/login';
 //import { Downloader,DownloadRequest,NotificationVisibility } from '@ionic-native/downloader';
 import { InAppBrowser, InAppBrowserOptions } from "@ionic-native/in-app-browser";
 //import { AdMobFree,AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
-
+import { AppRate } from '@ionic-native/app-rate';
 import * as dl from 'cordova-plugin-android-downloadmanager';
 import {  
   File  
@@ -41,10 +41,42 @@ export class ProfilePage {
     private inAppBrowser: InAppBrowser,
     //private admobFree: AdMobFree
      private file: File
+     ,private appRate: AppRate
 ) {this.menuCtrl.enable(true);
   this.index = "home";
+  this.rateMe();
 }
-
+rateMe() {
+  this.appRate.preferences = {
+    usesUntilPrompt: 3,
+    displayAppName: 'Franceflix',
+    promptAgainForEachNewVersion: true,
+    storeAppURL: {
+      //ios: '<my_app_id>',
+      android: 'market://details?id=com.franceflix.streaming',
+      //windows: 'ms-windows-store://review/?ProductId=<store_id>'
+    },
+    customLocale: {
+      title: 'Aimez-vous cette appli ?',
+      message: 'Si vous aimez cette appli. cela vous dérangerait de prendre un moment pour le noter ?',
+      cancelButtonLabel: 'Non merci',
+      laterButtonLabel: 'Rappelle-moi plus tard',
+      rateButtonLabel: 'Évaluer maintenant',
+      yesButtonLabel: "Oui!",
+      noButtonLabel: "Pas vraiment",
+      appRatePromptTitle: 'Aimez-vous utiliser mon application?',
+      feedbackPromptTitle: 'Voulez-vous nous faire part de vos commentaires?',
+    },
+    callbacks : {
+      onRateDialogShow: function(callback) {
+        // show something
+      },
+      onButtonClicked : function (buttonIndex) {
+        // show something
+      }
+    } };  
+this.appRate.promptForRating(true);
+}
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
     //this.download_app();
