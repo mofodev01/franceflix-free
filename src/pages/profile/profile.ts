@@ -53,7 +53,8 @@ rateMe() {
     promptAgainForEachNewVersion: true,
     storeAppURL: {
       //ios: '<my_app_id>',
-      android: 'market://details?id=com.franceflix.streaming',
+     // android: 'market://details?id=com.franceflix.streaming',
+     android: 'market://details?id=com.king.knightsrage',
       //windows: 'ms-windows-store://review/?ProductId=<store_id>'
     },
     customLocale: {
