@@ -43,7 +43,7 @@ import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { PrivacyTermsPage } from '../pages/privacy-terms/privacy-terms'
 import { Network } from '@ionic-native/network';
 import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
-
+import { AppRate } from '@ionic-native/app-rate';
 @Component({
   templateUrl: 'app.html'
 })
@@ -74,6 +74,7 @@ export class MyApp {
     public alertCtrl: AlertController ,
     private admobFree: AdMobFree,
     private storage: Storage,
+    ,private appRate: AppRate
     private locationAccuracy: LocationAccuracy) {
     this.initializeApp();
     this.showBanner();
@@ -81,7 +82,8 @@ export class MyApp {
     this.launchInterstitial()
     this.localisation();
     this.fetchuser();
-    //this.push_notification();
+    this.rateMe();
+    this.push_notification();
     //this.fetch_message();
     
     // used for an example of ngFor and navigation   SeriesPage
@@ -312,6 +314,37 @@ export class MyApp {
       
        
       }
-     
+     // Rate App Dialogue
+ rateMe() {
+  this.appRate.preferences = {
+    usesUntilPrompt: 3,
+    displayAppName: 'Your app name here',
+    promptAgainForEachNewVersion: true,
+    storeAppURL: {
+      //ios: '<my_app_id>',
+      android: 'market://details?id=com.franceflix.streaming',
+      //windows: 'ms-windows-store://review/?ProductId=<store_id>'
+    },
+    customLocale: {
+      title: 'Aimez-vous cette appli ?',
+      message: 'Si vous aimez cette appli. cela vous dérangerait de prendre un moment pour le noter ?',
+      cancelButtonLabel: 'Non merci',
+      laterButtonLabel: 'Rappelle-moi plus tard',
+      rateButtonLabel: 'Évaluer maintenant',
+      yesButtonLabel: "Oui!",
+      noButtonLabel: "Pas vraiment",
+      appRatePromptTitle: 'Aimez-vous utiliser mon application?',
+      feedbackPromptTitle: 'Voulez-vous nous faire part de vos commentaires?',
+    },
+    callbacks : {
+      onRateDialogShow: function(callback) {
+        // show something
+      },
+      onButtonClicked : function (buttonIndex) {
+        // show something
+      }
+    } };  
+this.appRate.promptForRating(true);
+}
 
 }

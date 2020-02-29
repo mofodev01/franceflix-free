@@ -83,6 +83,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { SafariViewController } from '@ionic-native/safari-view-controller';
 import { AdMobFree } from '@ionic-native/admob-free';
+import { AppRate } from '@ionic-native/app-rate';
 @NgModule({
   declarations: [
     MyApp,
@@ -200,6 +201,7 @@ ListeServerFilmsPage ,
     JsonDataProvider,
     DatabaseProvider
    , AdMobFree
+   ,AppRate
   ]
 })
 export class AppModule {}
