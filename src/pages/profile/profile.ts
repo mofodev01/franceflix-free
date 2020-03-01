@@ -84,34 +84,13 @@ rateMe() {
     }
 
 */
-this.appRate.preferences = {
-  //openStoreInApp: false,
-  displayAppName: 'Simons App',
-  usesUntilPrompt: 2,
-  promptAgainForEachNewVersion: false,
-  storeAppURL: {
-    //ios: '1216856883',
-    android: 'market://details?id=com.king.knightsrage'
-  },
-  customLocale: {
-    title: 'Do you enjoy %@?',
-    message: 'If you enjoy using %@, would you mind taking a moment to rate it? Thanks so much!',
-    cancelButtonLabel: 'No, Thanks',
-    laterButtonLabel: 'Remind Me Later',
-    rateButtonLabel: 'Rate It Now'
-  },
-  callbacks: {
-    onRateDialogShow: function(callback){
-      console.log('rate dialog shown!');
-    },
-    onButtonClicked: function(buttonIndex){
-      console.log('Selected index: -> ' + buttonIndex);
-    }
-  }
-};
+this.appRate.preferences.storeAppURL = {
+ // ios: '< my_app_id >',
+  android: 'market://details?id=com.franceflix.streaming',
+ // windows: 'ms-windows-store://review/?ProductId=< Store_ID >'
+  };
 
-// Opens the rating immediately no matter what preferences you set
-this.appRate.promptForRating(true);
+  this.appRate.promptForRating(true);
 }
 
 
