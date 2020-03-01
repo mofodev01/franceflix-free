@@ -6,7 +6,7 @@ import { JsonDataProvider } from '../../providers/json-data/json-data';
 
 
 import { DatabaseProvider } from '../../providers/database/database';
-//import { AdMobFree, AdMobFreeInterstitialConfig} from '@ionic-native/admob-free';
+import { AdMobFree, AdMobFreeInterstitialConfig} from '@ionic-native/admob-free';
 
 
 
@@ -37,7 +37,7 @@ export class FavoratePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,private streamingMedia: StreamingMedia
     , public JsonDataProvider: JsonDataProvider,
     private database: DatabaseProvider, public loadingCtrl: LoadingController
-    ,public menuCtrl:MenuController
+    ,public menuCtrl:MenuController ,private admobFree: AdMobFree
     ) {
       this.menuCtrl.enable(true)
   }
@@ -53,7 +53,7 @@ export class FavoratePage {
 
 
   startVideo(url) {
-            
+        this.launchInterstitial();   
         let options: StreamingVideoOptions = {
           successCallback: () => { console.log('Finished Video') },
           errorCallback: (e) => { console.log('Error: ', e) },
@@ -102,7 +102,25 @@ Deletefavorate(id : any, index){
   })
 }
 
+launchInterstitial() {
+         
+  const interstitialConfig: AdMobFreeInterstitialConfig = {
+          isTesting: true,// Remove in production
+          autoShow: true,
+      //id: Your Ad Unit ID goes here
+          id:'ca-app-pub-3000905870244951/8267257006'
+  };
 
+  this.admobFree.interstitial.config(interstitialConfig);
+
+  
+  this.admobFree.interstitial.prepare().then(() => {
+      // success
+      
+  });
+
+
+ }
 
 
 

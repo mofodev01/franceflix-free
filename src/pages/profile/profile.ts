@@ -15,7 +15,7 @@ import { LoginPage } from '../login/login';
 
 //import { Downloader,DownloadRequest,NotificationVisibility } from '@ionic-native/downloader';
 import { InAppBrowser, InAppBrowserOptions } from "@ionic-native/in-app-browser";
-//import { AdMobFree,AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
+import { AdMobFree,AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 import { AppRate } from '@ionic-native/app-rate';
 import * as dl from 'cordova-plugin-android-downloadmanager';
 import {  
@@ -39,7 +39,7 @@ export class ProfilePage {
     public http:  HttpClient,
    // private downloader: Downloader,
     private inAppBrowser: InAppBrowser,
-    //private admobFree: AdMobFree
+    private admobFree: AdMobFree,
      private file: File
      ,private appRate: AppRate
 ) {this.menuCtrl.enable(true);
@@ -48,42 +48,7 @@ export class ProfilePage {
 }
 /**/
 rateMe() {
-  /*
-  this.appRate.preferences = {
-    usesUntilPrompt: 5,
-    displayAppName: 'Franceflix',
-    promptAgainForEachNewVersion: true,
-    storeAppURL: {
-      //ios: '<my_app_id>',
-     // android: 'market://details?id=com.franceflix.streaming',
-     android: 'market://details?id=com.king.knightsrage',
-      //windows: 'ms-windows-store://review/?ProductId=<store_id>'
-    },
-    customLocale: {
-      title: 'Aimez-vous cette appli ?',
-      message: 'Si vous aimez cette appli. cela vous dérangerait de prendre un moment pour le noter ?',
-      cancelButtonLabel: 'Non merci',
-      laterButtonLabel: 'Rappelle-moi plus tard',
-      rateButtonLabel: 'Évaluer maintenant',
-      yesButtonLabel: "Oui!",
-      noButtonLabel: "Pas vraiment",
-      appRatePromptTitle: 'Aimez-vous utiliser mon application?',
-      feedbackPromptTitle: 'Voulez-vous nous faire part de vos commentaires?',
-    },
-    callbacks : {
-      onRateDialogShow: function(callback) {
-        // show something
-      },
-      onButtonClicked : function (buttonIndex) {
-        // show something
-      }
-    } };  
-    this.appRate.promptForRating(false);
-    if(this.appRate.preferences){
-      this.appRate.preferences.usesUntilPrompt -= 1
-    }
-
-*/
+ 
 this.appRate.preferences.storeAppURL = {
  // ios: '< my_app_id >',
   android: 'market://details?id=com.franceflix.streaming',
@@ -99,9 +64,11 @@ this.appRate.preferences.storeAppURL = {
     //this.download_app();
   }
   gotolive() {
+    this.launchInterstitial();
     this.navCtrl.setRoot(LivePage);
   }
   gotovod() {
+    this.launchInterstitial();
     this.navCtrl.setRoot(FilmsPage);
   }
   scrollTo() {
@@ -235,5 +202,25 @@ this.http.get('http://space.appmofix.com/api/fetch_user.php?username='+this.data
 ///-----
 
     }
+
+    launchInterstitial() {
+         
+      const interstitialConfig: AdMobFreeInterstitialConfig = {
+              isTesting: true,// Remove in production
+              autoShow: true,
+          //id: Your Ad Unit ID goes here
+              id:'ca-app-pub-3000905870244951/8267257006'
+      };
+    
+      this.admobFree.interstitial.config(interstitialConfig);
+    
+      
+      this.admobFree.interstitial.prepare().then(() => {
+          // success
+          
+      });
+    
+    
+     }
 
 }

@@ -1,0 +1,9 @@
+france-flix-free-android
+Android
+ID de l'application : ca-app-pub-3000905870244951~6543111797
+
+france-flix-bannere:
+ca-app-pub-3000905870244951/3257993979
+
+france-flix-Interstitiel:
+ca-app-pub-3000905870244951/8267257006

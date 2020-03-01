@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
 import { LivePage } from '../pages/live/live';
 import { FavoratePage } from '../pages/favorate/favorate';
 import { FilmsPage } from '../pages/films/films';
-
+/*
 import { TvSeriesPage } from '../pages/tv-series/tv-series';
 import { KidMoviesPage } from '../pages/kid-movies/kid-movies';
 
@@ -19,7 +19,7 @@ import { VodExYuPage } from '../pages/vod-ex-yu/vod-ex-yu';
 import { VodGamingPage } from '../pages/vod-gaming/vod-gaming'
 
 import { VipPage } from '../pages/vip/vip'
-
+*/
 import { ContactPage } from '../pages/contact/contact'
 //import { InfoPage } from '../pages/info/info'
 
@@ -35,10 +35,10 @@ import { OneSignal } from '@ionic-native/onesignal';
 /*
 import { FreeLivePage } from '../pages/free-live/free-live'
 import { FreeFilmsPage } from '../pages/free-films/free-films'
-*/
+
 import { DownloadPage } from '../pages/download/download';
 import { AndroidAppPage } from '../pages/android-app/android-app'
-
+*/
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { PrivacyTermsPage } from '../pages/privacy-terms/privacy-terms'
 import { Network } from '@ionic-native/network';
@@ -79,7 +79,7 @@ export class MyApp {
     this.initializeApp();
     this.showBanner();
     this.network_space();
-    this.launchInterstitial()
+    //this.launchInterstitial()
     this.localisation();
     this.fetchuser();
   
@@ -281,7 +281,7 @@ export class MyApp {
         const bannerConfig: AdMobFreeBannerConfig = {
           isTesting: true,// Remove in production
           autoShow: true,
-         // id:'ca-app-pub-3000905870244951/1001894206'
+          id:'ca-app-pub-3000905870244951/3257993979'
 
 
          };
@@ -295,6 +295,7 @@ export class MyApp {
         
       
       }
+      /*
       launchInterstitial() {
         
         const interstitialConfig: AdMobFreeInterstitialConfig = {
@@ -314,6 +315,6 @@ export class MyApp {
       
        
       }
-
+*/
 
 }
