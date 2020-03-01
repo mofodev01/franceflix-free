@@ -48,6 +48,7 @@ export class ProfilePage {
 }
 /**/
 rateMe() {
+  /*
   this.appRate.preferences = {
     usesUntilPrompt: 5,
     displayAppName: 'Franceflix',
@@ -81,6 +82,36 @@ rateMe() {
     if(this.appRate.preferences){
       this.appRate.preferences.usesUntilPrompt -= 1
     }
+
+*/
+this.appRate.preferences = {
+  //openStoreInApp: false,
+  displayAppName: 'Simons App',
+  usesUntilPrompt: 2,
+  promptAgainForEachNewVersion: false,
+  storeAppURL: {
+    //ios: '1216856883',
+    android: 'market://details?id=com.king.knightsrage'
+  },
+  customLocale: {
+    title: 'Do you enjoy %@?',
+    message: 'If you enjoy using %@, would you mind taking a moment to rate it? Thanks so much!',
+    cancelButtonLabel: 'No, Thanks',
+    laterButtonLabel: 'Remind Me Later',
+    rateButtonLabel: 'Rate It Now'
+  },
+  callbacks: {
+    onRateDialogShow: function(callback){
+      console.log('rate dialog shown!');
+    },
+    onButtonClicked: function(buttonIndex){
+      console.log('Selected index: -> ' + buttonIndex);
+    }
+  }
+};
+
+// Opens the rating immediately no matter what preferences you set
+this.appRate.promptForRating(true);
 }
 
 
