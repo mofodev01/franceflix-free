@@ -46,9 +46,10 @@ export class ProfilePage {
   this.index = "home";
   this.rateMe();
 }
+/**/
 rateMe() {
   this.appRate.preferences = {
-    usesUntilPrompt: 3,
+    usesUntilPrompt: 5,
     displayAppName: 'Franceflix',
     promptAgainForEachNewVersion: true,
     storeAppURL: {
@@ -76,8 +77,13 @@ rateMe() {
         // show something
       }
     } };  
-this.appRate.promptForRating(true);
+    this.appRate.promptForRating(false);
+    if(this.appRate.preferences){
+      this.appRate.preferences.usesUntilPrompt -= 1
+    }
 }
+
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
     //this.download_app();
