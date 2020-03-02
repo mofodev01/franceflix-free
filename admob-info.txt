@@ -7,3 +7,9 @@ ca-app-pub-3000905870244951/3257993979
 
 france-flix-Interstitiel:
 ca-app-pub-3000905870244951/8267257006
+
+---------------------------------------------------------------------
+<plugin name="cordova-plugin-admob-free" spec="^0.18.0" />
+"cordova-admob-sdk": "^0.18.0",
+"cordova-plugin-admob-free": "^0.18.0",
+"@ionic-native/admob-free": "^4.12.2",
