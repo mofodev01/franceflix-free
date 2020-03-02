@@ -58,7 +58,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { Market } from '@ionic-native/market';
 //import { AdMobFree } from '@ionic-native/admob-free';
 
-import { PayPal } from '@ionic-native/paypal';
+//import { PayPal } from '@ionic-native/paypal';
 import { Geolocation } from  '@ionic-native/geolocation';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
@@ -176,7 +176,7 @@ ListeServerFilmsPage ,
     Toast,
     SocialSharing,
     Market,
-    PayPal,
+   // PayPal,
    /**/ 
     HttpClientModule,
     /*IonicStorageModule,
