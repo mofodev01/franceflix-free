@@ -206,10 +206,10 @@ this.http.get('http://space.appmofix.com/api/fetch_user.php?username='+this.data
     launchInterstitial() {
          
       const interstitialConfig: AdMobFreeInterstitialConfig = {
-              isTesting: true,// Remove in production
+              //isTesting: true,// Remove in production
               autoShow: true,
           //id: Your Ad Unit ID goes here
-             // id:'ca-app-pub-3000905870244951/8267257006'
+             id:'ca-app-pub-3000905870244951/8267257006'
       };
     
       this.admobFree.interstitial.config(interstitialConfig);

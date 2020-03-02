@@ -13,3 +13,6 @@ ca-app-pub-3000905870244951/8267257006
 "cordova-admob-sdk": "^0.18.0",
 "cordova-plugin-admob-free": "^0.18.0",
 "@ionic-native/admob-free": "^4.12.2",
+
+<plugin name="cordova-plugin-ionic-webview" spec="^1.1.19" />
+"cordova-plugin-ionic-webview": "^1.1.19",
