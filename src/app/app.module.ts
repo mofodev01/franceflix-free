@@ -72,7 +72,7 @@ import {
 import {  
   File  
 } from '@ionic-native/file';
-import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
+
 import { Clipboard } from '@ionic-native/clipboard';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { PrivacyTermsPage } from '../pages/privacy-terms/privacy-terms';
@@ -81,7 +81,7 @@ import { RecoveryPasswordPage } from '../pages/recovery-password/recovery-passwo
 //import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-import { SafariViewController } from '@ionic-native/safari-view-controller';
+
 import { AdMobFree } from '@ionic-native/admob-free';
 import { AppRate } from '@ionic-native/app-rate';
 @NgModule({
@@ -189,13 +189,13 @@ ListeServerFilmsPage ,
     FileTransfer,  
     FileTransferObject,  
     File ,
-    YoutubeVideoPlayer ,
+    
     Clipboard ,
     EmailComposer ,
     OneSignal,
     Network,
     InAppBrowser,
-    SafariViewController,
+    
     //Braintree, 
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     JsonDataProvider,
