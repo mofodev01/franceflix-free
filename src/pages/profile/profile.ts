@@ -132,7 +132,7 @@ openWebpage(){
 
 }
 
-this.inAppBrowser.create('http://appmofix.com/', '_system', options);
+this.inAppBrowser.create('http://appmofix.com/', '_self', options);
 
 }
 
