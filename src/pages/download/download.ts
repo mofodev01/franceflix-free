@@ -9,7 +9,7 @@ import * as dl from 'cordova-plugin-android-downloadmanager';
 import {  
   File  
 } from '@ionic-native/file';
-import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
+//import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
 import { Clipboard } from '@ionic-native/clipboard';
 @Component({
   selector: 'page-download',
@@ -44,7 +44,7 @@ index: string
     ,public menuCtrl:MenuController
     ,private market: Market
     , private file: File
-    ,private youtube: YoutubeVideoPlayer
+    //,private youtube: YoutubeVideoPlayer
     ,private clipboard: Clipboard
     ) {
     this.menuCtrl.enable(true);
@@ -149,11 +149,12 @@ index: string
                 }
                 //key api youtube
                 //AIzaSyCSllJn0jW7kf9zIpWyPbORJ1WQ3yBGzXM
-
+/*
 open_youtube_video(){
   this.youtube.openVideo('AH_4sr4jYlA');
   
 }
+*/
 copyTextEPG(){
   this.clipboard.copy(this.CopyTextAreaEPG);
 }
